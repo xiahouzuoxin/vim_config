@@ -1,4 +1,5 @@
-" ==> Add plugins
+" ==============================================================================
+" ## Plugins
 " echofunc           函数参数提示
 " taglist            标签
 " winmanager         窗口管理 快捷键wm
@@ -7,9 +8,28 @@
 " colors/*           各种VIM主题
 " vim-markdown       Markdown语法高亮 https://github.com/plasticboy/vim-markdown
 "
+" ## Features
+" 1. 解决中文/菜单乱码
+" 2. 配置置状态栏，默认隐藏工具栏和菜单栏，F2快捷键可打开
+" 3. 快捷键：Ctrl+]执行ctags跳转，F12快捷键自动生成/更新tags文件,
+"    普通模式下wm在VIM左侧打开wmmanager窗口
+" 4. 自动补全([{等括号
+" 5. 自动为.c.h等插入文件头注释
+" 6. F3快捷键自动插入函数注释
+" 7. 设置中文字体为幼圆，英文字体为Courier New
+" 8. 语法高亮
+" 9. omnicppcomplete实现自动C/C++代码补全
+" 10. 当前行高亮
+" 11. 使用molokai经典TextMate主题
+" 12. 使用vim-markdown插件实现Markdown语法高亮等
+" 
+" 
+" Author: Zuoxin  (xiahouzuoxin@163.com)
+" Copyright (c) MICL,USTB
+" ==============================================================================
 
 
-"默认vimrc配置
+" 载入系统默认vimrc配置
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -78,12 +98,6 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
     \endif<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
-" 快捷键映射
-""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <c-]> g<c-]>      " 将Ctrl+]快捷键映射到g Ctrl+]
-nmap wm :WMToggle<cr>  " wm快捷键用于打开FileExplorer
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
 " 程序的编译运行
 """"""""""""""""""""""""""""""""""""""""""""""""""
 "C，C++ 按F5编译运行
@@ -114,6 +128,8 @@ endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " 自动补全各种括号
 """"""""""""""""""""""""""""""""""""""""""""""""""
+let g:CompleteBracket=1  "设自动补全括号变量
+if g:CompleteBracket==1
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
 :inoremap { {<CR>}<ESC>O
@@ -122,6 +138,7 @@ endfunc
 :inoremap ] <c-r>=ClosePair(']')<CR>
 :inoremap " ""<ESC>i
 :inoremap ' ''<ESC>i
+endif
 function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
         return "\<Right>"
@@ -219,33 +236,44 @@ set completeopt=longest,menu    "打开文件类型检测, 加了这句才可以用智能补全
 set cursorline                  "突出显示当前行
 syntax enable
 syntax on                       "语言高亮
-set cindent
+set cindent                     "C语言格式缩进
+set smartindent                 "智能缩进
 set nu                          "行号显示
 colo molokai                    "设定主题,desert/lucius/molokai主题都不错
 set tabstop=4                   "设定tab宽度为4个字符
 set shiftwidth=4                "设定自动缩进为4个字符
 set expandtab                   "用space替代tab的输入
 set nobackup                    "无备份
-"set noswapfile                  "无交换文件
+set noswapfile                  "无交换文件
 autocmd InsertLeave * se nocul  "用浅色高亮当前行  
 autocmd InsertEnter * se cul    "用浅色高亮当前行
 set completeopt=preview,menu    "代码补全
-set foldenable                  "允许折叠  
-set foldmethod=manual           "手动折叠  
+"set foldenable                  "允许折叠  
+"set foldmethod=indent           "折叠方式,包括indent,manual,marker等 
 let Tlist_Exit_OnlyWindow = 1   "如果taglist窗口是最后一个窗口，则退出VIM
 set iskeyword+=_,$,@,%,#,-      "带有左侧符号的单词不要被换行分割
 set noerrorbells                "禁止错误声音提示
 set novisualbell                "无错误屏幕闪烁提示
-"清空错误响铃终端代码
-set t_vb=
+set t_vb=                       "清空错误响铃终端代码
 set mouse=a                     "使能鼠标
+set textwidth=120               "设置最大列数，超出后自动换行
+set so=5                        "光标上下两侧最少保留的屏幕行数scrolloff
+set cmdheight=1                 "命令行高度设置
+"set hlsearch                    "搜索的字符高亮
 
 "如果文件外部改变，自动载入
 if exists("&autoread")
     set autoread
 endif
 
-"vim-markdown插件设置
+"下次开启VIM，自动将光标定位到关闭的位置
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-markdown插件设置
+""""""""""""""""""""""""""""""""""""""""""""""""""
 "]]: go to next header.
 "[[: go to previous header. Contrast with ]c.
 "][: go to next sibling header if any.
@@ -254,6 +282,31 @@ endif
 "]u: go to parent header (Up).
 let g:vim_markdown_folding_disable=1    "禁止md文件的折叠功能
 let g:vim_markdown_initial_foldlevel=1  "折叠级别设置，需开启vim_markdown_folding_disable
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ctags与Taglist设置
+""""""""""""""""""""""""""""""""""""""""""""""""""
+"如果ctags与gvim不在同一目录，则设置ctags路径
+"let Tlist_Ctags_Cmd = 'D:\ctags58\ctags.exe'
+
+"Taglist跳转快捷键设置
+nmap <c-]> g<c-]>               "将Ctrl+]快捷键映射到g Ctrl+]
+
+"F12生成/更新tags文件 
+set tags=tags 
+set autochdir
+function! UpdateTagsFile() 
+    silent !ctags -R --c++-kinds=+p --fields=+ianS --extra=+q 
+endfunction 
+nmap <F12> :call UpdateTagsFile()<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" winmanager设置
+""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:winManagerWindowLayout="FileExplorer|TagList,BufExplorer"  "设置wm界面分割
+let g:AutoOpenWinManager=0      "设为1则在进入vim时自动打开winmanager
+let g:winManagerWidth = 30      "设置winmanager宽度
+nmap wm :WMToggle<cr>           "wm快捷键用于打开winmanager
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " 新增tags
