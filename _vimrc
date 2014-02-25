@@ -22,9 +22,11 @@
 " 10. 当前行高亮
 " 11. 使用molokai经典TextMate主题
 " 12. 使用vim-markdown插件实现Markdown语法高亮等
+" 13. Visual模式下选择注释代码块
+" 14. Visual模式下选中字符串后，使用#,*,gv快捷键可快速实现文档内对选中字符串的查找
 " 
 " 
-" Author: Zuoxin  (xiahouzuoxin@163.com)
+" Author: Zuoxin,Xiahou  (xiahouzuoxin@163.com)
 " Copyright (c) MICL,USTB
 " ==============================================================================
 
@@ -34,9 +36,10 @@ source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" ------------------------------------------------------------------------------
 " 原gvim自带的配置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 set diffexpr=MyDiff()
 function MyDiff()
   let opt = '-a --binary '
@@ -63,9 +66,9 @@ function MyDiff()
 endfunction
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " 解决中文/菜单乱码
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 "编码设置
 set encoding=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
@@ -78,9 +81,9 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " VIM窗口界面设置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 au GUIEnter * simalt ~x         "启动后最大化
 let g:winManagerWindowLayout='FileExplorer|TagList'  "设置左侧导航窗口
 " 我的状态行显示的内容（包括文件类型和解码）
@@ -97,9 +100,9 @@ map <silent> <F2> :if &guioptions =~# 'T' <Bar>
         \set guioptions+=m <Bar>
     \endif<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " 程序的编译运行
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 "C，C++ 按F5编译运行
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
@@ -125,10 +128,10 @@ func! Rungdb()
     exec "!gdb ./%<"
 endfunc
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " 自动补全各种括号
-""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:CompleteBracket=1  "设自动补全括号变量
+" ------------------------------------------------------------------------------
+let g:CompleteBracket=1         "设自动补全括号变量
 if g:CompleteBracket==1
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
@@ -147,9 +150,9 @@ function! ClosePair(char)
     endif
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " 自动插入文件头
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.v,*.m exec ":call SetTitle()" 
 func SetTitle() " 定义函数SetTitle，自动插入文件头  
     if &filetype == 'sh'  "如果文件类型为.sh文件 
@@ -198,9 +201,9 @@ func SetTitle() " 定义函数SetTitle，自动插入文件头
     autocmd BufNewFile * normal G
 endfunc 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " F3自动插入函数注释
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 map <F3> :call SetFuncNotes()<CR>
 func SetFuncNotes()
     if &filetype == 'sh'
@@ -223,9 +226,9 @@ func SetFuncNotes()
     endif
 endfunc
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " 基础设置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 "set history=500                 "设定历史记录条数
 set guifont=Courier\ New:h11    "英文字体及大小 
 set gfw=幼圆:h10.5:cGB2312       "中文字体及大小
@@ -260,6 +263,7 @@ set textwidth=120               "设置最大列数，超出后自动换行
 set so=5                        "光标上下两侧最少保留的屏幕行数scrolloff
 set cmdheight=1                 "命令行高度设置
 "set hlsearch                    "搜索的字符高亮
+set helplang=cn                 "设置中文帮助
 
 "如果文件外部改变，自动载入
 if exists("&autoread")
@@ -271,9 +275,9 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " vim-markdown插件设置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 "]]: go to next header.
 "[[: go to previous header. Contrast with ]c.
 "][: go to next sibling header if any.
@@ -283,9 +287,9 @@ endif
 let g:vim_markdown_folding_disable=1    "禁止md文件的折叠功能
 let g:vim_markdown_initial_foldlevel=1  "折叠级别设置，需开启vim_markdown_folding_disable
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " Ctags与Taglist设置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 "如果ctags与gvim不在同一目录，则设置ctags路径
 "let Tlist_Ctags_Cmd = 'D:\ctags58\ctags.exe'
 
@@ -300,17 +304,117 @@ function! UpdateTagsFile()
 endfunction 
 nmap <F12> :call UpdateTagsFile()<CR>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " winmanager设置
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 let g:winManagerWindowLayout="FileExplorer|TagList,BufExplorer"  "设置wm界面分割
 let g:AutoOpenWinManager=0      "设为1则在进入vim时自动打开winmanager
 let g:winManagerWidth = 30      "设置winmanager宽度
 nmap wm :WMToggle<cr>           "wm快捷键用于打开winmanager
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
+" Visual模式下快速注释代码块
+" Refrence to comment.vim, version 1.0
+" jerome.plut at normalesup dot org
+" 快捷键：>c注释，<c反注释
+" ------------------------------------------------------------------------------
+function! CommentStyle(s)
+  if match (a:s, '@') >= 0
+  let str1 = substitute (a:s, '@.*$', '', '')
+    let str2 = substitute (a:s, '^.*@', '', '')
+  else
+    let str1 = a:s. ' '
+    let str2 = ''
+  endif
+  let pat1 = substitute (str1, '[][*^.$~]', '\\&', 'g')
+  let pat1 = substitute (pat1, '\s*$', '\\s*', '')
+  let str1 = substitute (str1, '&', '\\&', 'g')
+  if str2 == ''
+    " s:l1 contains the computed patterns to comment, s:l2 those to
+    " uncomment
+    let s:l1 = [ 'sm@^@'.str1.'@e' ]
+    let s:l2 = [ 'sm@^\s*'.pat1.'@@e' ]
+  else
+    let pat2 = substitute (str2, '[][*^.$~]', '\\&', 'g')
+    let pat2 = substitute (pat2, '^\s*', '\\s*', '')
+    let str2 = substitute (str2, '&', '\\&', 'g')
+    " protect any comment that becomes nested
+    " with non-ASCII chars, to avoid collisions
+    let s:l1 = ['sm@?¤@?¤¤@ge', 'sm@'.pat1.'@?¤?@ge', 'sm@^@'.str1.'@e']
+    let s:l1+= ['sm@¤?@¤¤?@ge', 'sm@'.pat2.'@?¤?@ge', 'sm@$@'.str2.'@e']
+    let s:l2 = ['sm@^\s*'.pat1.'@@e', 'sm@?¤?@'.str1.'@ge', 'sm@?¤¤@?¤@ge']
+    let s:l2+= ['sm@'.pat2.'\s*$@@e', 'sm@?¤?@'.str2.'@ge', 'sm@¤¤?@¤?@ge']
+  endif
+endfunction
+
+function! Comment() range
+  for s in s:l1
+    execute ':sil '.a:firstline.','.a:lastline.s
+  endfor
+endfunction
+
+function! UnComment() range
+  let pre = ':sil '.a:firstline.','.a:lastline
+  for s in s:l2
+    execute ':sil '.a:firstline.','.a:lastline.s
+  endfor
+endfunction
+
+command! -nargs=1 CommentStyle call CommentStyle (<f-args>)
+
+map <silent> >c :call Comment()<CR>
+map <silent> <c :call UnComment()<CR>
+map =c :CommentStyle<Space>
+
+"不同类型文件使用不同的注释符号
+au FileType * CommentStyle #
+au FileType vim CommentStyle "
+au FileType c,cpp,h,verilog CommentStyle //
+au FileType html CommentStyle <!-- @ -->
+au FileType python CommentStyle """ @ """
+" This makes quotes in emails
+au FileType mail CommentStyle >
+
+" ------------------------------------------------------------------------------
+" Visual模式下选择查找，非常棒的操作
+" - Using the "*" key while in visual mode searches for the current selection (forwards)
+" - Using the "#" key while in visual mode searches for the current selection (backwards)
+" - Pressing "gv" will vimgrep the current selection
+" ------------------------------------------------------------------------------
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction 
+
+" From an idea by Michael Naumann
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+"Basically you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+vnoremap <silent> gv :call VisualSearch('gv')<CR>
+
+" ------------------------------------------------------------------------------
 " 新增tags
-""""""""""""""""""""""""""""""""""""""""""""""""""
+" ------------------------------------------------------------------------------
 " Linux Kernel Tags
 set tags+=E:\LinuxKernel\linux-3.13\tags
 
