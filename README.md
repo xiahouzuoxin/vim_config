@@ -24,3 +24,5 @@
     colors/*           各种VIM主题
     vim-markdown       Markdown语法高亮 https://github.com/plasticboy/vim-markdown
 
+## exec
+    ctags.exe          Windows环境下的ctags,放置到gvim.exe所在目录,亦可到http://ctags.sourceforge.net/下载Linux环境下默认已安装
