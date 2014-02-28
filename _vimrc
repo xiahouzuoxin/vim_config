@@ -7,11 +7,12 @@
 " omnicppcomplete    C/C++代码自动提示
 " colors/*           各种VIM主题
 " vim-markdown       Markdown语法高亮 https://github.com/plasticboy/vim-markdown
+" NERDTree           文件浏览器管理插件
 "
 " ## Features
 " 1. 解决中文/菜单乱码
 " 2. 配置置状态栏，默认隐藏工具栏和菜单栏，F2快捷键可打开
-" 3. 快捷键：Ctrl+]执行ctags跳转，F12快捷键自动生成/更新tags文件,
+" 3. 快捷键：Ctrl+]执行ctags跳转，Ctrl+T返回，F12快捷键自动生成/更新tags文件,
 "    普通模式下wm在VIM左侧打开wmmanager窗口
 " 4. 自动补全([{等括号
 " 5. 自动为.c.h等插入文件头注释
@@ -22,24 +23,46 @@
 " 10. 当前行高亮
 " 11. 使用molokai经典TextMate主题
 " 12. 使用vim-markdown插件实现Markdown语法高亮等
-" 13. Visual模式下选择注释代码块
+" 13. Visual模式下选择注释代码块 \cc注释 \co反注释
 " 14. Visual模式下选中字符串后，使用#,*,gv快捷键可快速实现文档内对选中字符串的查找
+" 15. 添加NERDTree插件，将NERDTree集成到winmanager窗口中. 将原NERDTree的打开文件快捷键O修改为Enter.
 " 
+" ## Key Mapping
+" 1. F2                 打开工具栏和菜单栏
+" 2. Ctrl+]             Ctags跳转 
+" 3. Ctrl+T             Ctags返回
+" 4. F12                创建或更新tags文件
+" 5. wm                 打开winmanager左侧导航窗口
+" 6. F3                 插入函数注释
+" 7. \cc                注释代码块
+" 8. \co                反注释代码块
+" 9. #,*                Visual模式下对选择字符查找
+" 10.NERDTree/Enter:    从NERDTree中打开选中文件
 " 
 " Author: Zuoxin,Xiahou  (xiahouzuoxin@163.com)
 " Copyright (c) MICL,USTB
 " ==============================================================================
 
 
+" 返回平台信息
+function! MySys()
+  if has("win32")
+    return "windows"
+  else
+    return "linux"
+  endif
+endfunction
+
 " 载入系统默认vimrc配置
 source $VIMRUNTIME/vimrc_example.vim
+
+" ------------------------------------------------------------------------------
+" FOR GVIM in windows
+" ------------------------------------------------------------------------------
+if MySys() == 'windows'
 source $VIMRUNTIME/mswin.vim
 behave mswin
 
-
-" ------------------------------------------------------------------------------
-" 原gvim自带的配置
-" ------------------------------------------------------------------------------
 set diffexpr=MyDiff()
 function MyDiff()
   let opt = '-a --binary '
@@ -64,7 +87,7 @@ function MyDiff()
   endif
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
-
+endif
 
 " ------------------------------------------------------------------------------
 " 解决中文/菜单乱码
@@ -247,7 +270,7 @@ set tabstop=4                   "设定tab宽度为4个字符
 set shiftwidth=4                "设定自动缩进为4个字符
 set expandtab                   "用space替代tab的输入
 set nobackup                    "无备份
-set noswapfile                  "无交换文件
+"set noswapfile                  "无交换文件,注意，错误退出后无法恢复
 autocmd InsertLeave * se nocul  "用浅色高亮当前行  
 autocmd InsertEnter * se cul    "用浅色高亮当前行
 set completeopt=preview,menu    "代码补全
@@ -259,11 +282,18 @@ set noerrorbells                "禁止错误声音提示
 set novisualbell                "无错误屏幕闪烁提示
 set t_vb=                       "清空错误响铃终端代码
 set mouse=a                     "使能鼠标
-set textwidth=120               "设置最大列数，超出后自动换行
+" set lbr                         "在breakat字符处而不是最后一个字符处断行
+" set textwidth=82                "设置最大列数，超出后自动换行
+" set fo+=m                       "汉字超出最大列数自动换行
+" set cc=82                       "在cc列加列数限制竖线
 set so=5                        "光标上下两侧最少保留的屏幕行数scrolloff
 set cmdheight=1                 "命令行高度设置
-"set hlsearch                    "搜索的字符高亮
+set hlsearch                    "搜索的字符高亮
 set helplang=cn                 "设置中文帮助
+
+" 第82列往后加下划线
+au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 82 . 'v.\+', -1)
+
 
 "如果文件外部改变，自动载入
 if exists("&autoread")
@@ -293,8 +323,10 @@ let g:vim_markdown_initial_foldlevel=1  "折叠级别设置，需开启vim_markdown_foldin
 "如果ctags与gvim不在同一目录，则设置ctags路径
 "let Tlist_Ctags_Cmd = 'D:\ctags58\ctags.exe'
 
-"Taglist跳转快捷键设置
+"Taglist跳转快捷键
 nmap <c-]> g<c-]>               "将Ctrl+]快捷键映射到g Ctrl+]
+
+let Tlist_Show_One_File=1       "不同时显示多个文件的 tag ，只显示当前文件的
 
 "F12生成/更新tags文件 
 set tags=tags 
@@ -305,9 +337,28 @@ endfunction
 nmap <F12> :call UpdateTagsFile()<CR>
 
 " ------------------------------------------------------------------------------
+" NERDTree设置
+" ------------------------------------------------------------------------------
+let g:NERDTree_title="[NERDTree]"
+function! NERDTree_Start()  
+    exec 'NERDTree'  
+endfunction  
+  
+function! NERDTree_IsValid()  
+    return 1  
+endfunction 
+
+let NERDTreeChDirMode=2         "选中root即设置为当前目录
+let NERDTreeShowBookmarks=1     "显示书签
+"let NERDTreeMinimalUI=1         "不显示帮助面板
+let NERDTreeDirArrows=0         "目录箭头 1 显示箭头  0传统+-|号
+let NERDTreeMouseMode=2         "可以使用鼠标打开文件
+
+" ------------------------------------------------------------------------------
 " winmanager设置
 " ------------------------------------------------------------------------------
-let g:winManagerWindowLayout="FileExplorer|TagList,BufExplorer"  "设置wm界面分割
+"let g:winManagerWindowLayout="FileExplorer|TagList,BufExplorer"  "设置wm界面分割
+let g:winManagerWindowLayout="NERDTree|TagList,BufExplorer"  "设置wm界面分割: NERDTree替换FileExplorer
 let g:AutoOpenWinManager=0      "设为1则在进入vim时自动打开winmanager
 let g:winManagerWidth = 30      "设置winmanager宽度
 nmap wm :WMToggle<cr>           "wm快捷键用于打开winmanager
@@ -316,7 +367,7 @@ nmap wm :WMToggle<cr>           "wm快捷键用于打开winmanager
 " Visual模式下快速注释代码块
 " Refrence to comment.vim, version 1.0
 " jerome.plut at normalesup dot org
-" 快捷键：>c注释，<c反注释
+" 快捷键：\cc注释，\co反注释
 " ------------------------------------------------------------------------------
 function! CommentStyle(s)
   if match (a:s, '@') >= 0
@@ -362,8 +413,8 @@ endfunction
 
 command! -nargs=1 CommentStyle call CommentStyle (<f-args>)
 
-map <silent> >c :call Comment()<CR>
-map <silent> <c :call UnComment()<CR>
+map <silent> \cc :call Comment()<CR>
+map <silent> \co :call UnComment()<CR>
 map =c :CommentStyle<Space>
 
 "不同类型文件使用不同的注释符号

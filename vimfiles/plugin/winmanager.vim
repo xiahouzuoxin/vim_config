@@ -1062,6 +1062,8 @@ function! <SID>ToggleWindowsManager()
 		call s:CloseWindowsManager()
 	else
 		call s:StartWindowsManager()
+"打开Winmanager界面时，会同时打开一个空的文件，下面语句在打开Winmanager时关掉这个空文件
+		exe 'q' 
 	end
 endfunction
 
