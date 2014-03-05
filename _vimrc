@@ -93,7 +93,8 @@ endif
 " 解决中文/菜单乱码
 " ------------------------------------------------------------------------------
 "编码设置
-set encoding=utf-8
+set encoding=prc
+set termencoding=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 "语言设置
 set langmenu=zh_CN.UTF-8
@@ -177,6 +178,7 @@ endfunction
 " 自动插入文件头
 " ------------------------------------------------------------------------------
 autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.v,*.m exec ":call SetTitle()" 
+autocmd BufNewFile * normal G  "新建文件后，自动定位到文件末尾
 func SetTitle() " 定义函数SetTitle，自动插入文件头  
     if &filetype == 'sh'  "如果文件类型为.sh文件 
         call setline(1,"#########################################################################") 
@@ -184,7 +186,7 @@ func SetTitle() " 定义函数SetTitle，自动插入文件头
         call append(line(".")+1, "# Author   : xiahouzuoxin @163.com") 
         call append(line(".")+2, "# Date     : ".strftime("%c")) 
         call append(line(".")+3, "#########################################################################") 
-        call append(line(".")+4, "") 
+        call append(line(".")+4, "# ") 
         call append(line(".")+5, "#!/bin/bash") 
         call append(line(".")+6, "") 
     elseif &filetype == 'matlab' 
@@ -194,8 +196,8 @@ func SetTitle() " 定义函数SetTitle，自动插入文件头
         call append(line(".")+2, "% Version  : v1.0") 
         call append(line(".")+3, "% Date     : ".strftime("%c")) 
         call append(line(".")+4, "% Brief    : ")
-        call append(line(".")+5, "")
-        call append(line(".")+6, "% Copyright (C) USTB") 
+        call append(line(".")+5, "% ")
+        call append(line(".")+6, "% Copyright (C) MICL,USTB") 
         call append(line(".")+7, "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%") 
         call append(line(".")+8, " ")
     else 
@@ -205,8 +207,8 @@ func SetTitle() " 定义函数SetTitle，自动插入文件头
         call append(line(".")+2, " * Version  : v1.0") 
         call append(line(".")+3, " * Date     : ".strftime("%c")) 
         call append(line(".")+4, " * Brief    : ")
-        call append(line(".")+5, "")
-        call append(line(".")+6, " * Copyright (C) USTB") 
+        call append(line(".")+5, " * ")
+        call append(line(".")+6, " * Copyright (C) MICL,USTB") 
         call append(line(".")+7, " */") 
         call append(line(".")+8, " ")
     endif
@@ -220,8 +222,6 @@ func SetTitle() " 定义函数SetTitle，自动插入文件头
     "     call append(line(".")+9, "#include<stdio.h>")
     "     call append(line(".")+10, "")
     " endif
-    "新建文件后，自动定位到文件末尾
-    autocmd BufNewFile * normal G
 endfunc 
 
 " ------------------------------------------------------------------------------
@@ -289,7 +289,6 @@ set mouse=a                     "使能鼠标
 set so=5                        "光标上下两侧最少保留的屏幕行数scrolloff
 set cmdheight=1                 "命令行高度设置
 set hlsearch                    "搜索的字符高亮
-set helplang=cn                 "设置中文帮助
 
 " 第82列往后加下划线
 au BufWinEnter * let w:m2=matchadd('Underlined', '\%>' . 82 . 'v.\+', -1)
@@ -348,7 +347,7 @@ function! NERDTree_IsValid()
     return 1  
 endfunction 
 
-let NERDTreeChDirMode=2         "选中root即设置为当前目录
+"let NERDTreeChDirMode=2         "选中root即设置为当前目录
 let NERDTreeShowBookmarks=1     "显示书签
 "let NERDTreeMinimalUI=1         "不显示帮助面板
 let NERDTreeDirArrows=0         "目录箭头 1 显示箭头  0传统+-|号

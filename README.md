@@ -13,7 +13,7 @@
 	12. 使用vim-markdown插件实现Markdown语法高亮等
 	13. Visual模式下选择注释代码块 \cc注释 \co反注释
 	14. Visual模式下选中字符串后，使用#,*,gv快捷键可快速实现文档内对选中字符串的查找
-	15. 添加NERDTree插件，将NERDTree集成到winmanager窗口中. 将原NERDTree的打开文件快捷键O修改为Enter.
+	15. 添加NERDTree插件，将NERDTree集成到winmanager窗口中
 	16. 诸多其它小功能
 
 ##Plugins
@@ -36,7 +36,7 @@
     \cc                注释代码块
     \co                反注释代码块
     #,*                Visual模式下对选择字符查找
-    NERDTree/Enter:    从NERDTree中打开选中文件
+    NERDTree/o或i      从NERDTree中打开选中文件
 
 ## exec
     ctags.exe          Windows环境下的ctags,放置到gvim.exe所在目录,亦可到http://ctags.sourceforge.net/下载Linux环境下默认已安装
