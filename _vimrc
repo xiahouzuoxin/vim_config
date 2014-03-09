@@ -93,16 +93,16 @@ endif
 " 解决中文/菜单乱码
 " ------------------------------------------------------------------------------
 "编码设置
-set encoding=prc
+set encoding=prc   " If something wrong, test "utf-8"
 set termencoding=utf-8
 set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
-"语言设置
-set langmenu=zh_CN.UTF-8
-set helplang=cn
-" 解决菜单乱码,set encoding=utf-8会出现菜单乱码，下面配置可解决
-let $LANG = 'zh_CN.UTF-8'
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
+" 中文语言设置
+"set langmenu=zh_CN.UTF-8
+"set helplang=cn
+" 解决菜单乱码,set encoding=utf-8会出现中文菜单乱码，下面配置可解决
+"let $LANG = 'zh_CN.UTF-8'
+"source $VIMRUNTIME/delmenu.vim
+"source $VIMRUNTIME/menu.vim
 
 
 " ------------------------------------------------------------------------------
@@ -329,7 +329,7 @@ let Tlist_Show_One_File=1       "不同时显示多个文件的 tag ，只显示当前文件的
 
 "F12生成/更新tags文件 
 set tags=tags 
-set autochdir
+"set autochdir
 function! UpdateTagsFile() 
     silent !ctags -R --c++-kinds=+p --fields=+ianS --extra=+q 
 endfunction 
