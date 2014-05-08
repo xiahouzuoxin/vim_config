@@ -1,4 +1,4 @@
-##Features
+## Features
 	1. 解决中文/菜单乱码
 	2. 配置置状态栏，默认隐藏工具栏和菜单栏，F2快捷键可打开
 	3. 快捷键：Ctrl+]执行ctags跳转，Ctrl+T返回，F12快捷键自动生成/更新tags文件,普通模式下wm在VIM左侧打开wmmanager窗口
@@ -16,7 +16,7 @@
 	15. 添加NERDTree插件，将NERDTree集成到winmanager窗口中
 	16. 诸多其它小功能
 
-##Plugins
+## Plugins
     echofunc           函数参数提示
     taglist            标签
     winmanager         窗口管理 快捷键wm
@@ -40,3 +40,26 @@
 
 ## exec
     ctags.exe          Windows环境下的ctags,放置到gvim.exe所在目录,亦可到http://ctags.sourceforge.net/下载Linux环境下默认已安装
+
+
+## User Guide
+
+- Copy vimfiles directory to your home directory. In Linux, mv directory name to .vim. Linux Example: 
+
+```
+su root
+mv vimfiles .vim 
+cp .vim /home/monkeyzx/
+```
+
+- In Linux, Copy vimrc to /etc/vimrc. In Windows, Copy _vimrc instead of vimrc to GVIM install path. Linux Example: 
+
+```
+su root
+cp vimrc /etc/vimrc
+```
+
+I test all of them in Cygwin and Centos 6.3.
+
+![](./disp.png)
+
