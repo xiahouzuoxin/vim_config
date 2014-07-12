@@ -25,6 +25,7 @@
     colors/*           各种VIM主题
     vim-markdown       Markdown语法高亮 https://github.com/plasticboy/vim-markdown
     NERDTree           文件浏览器管理插件
+    a.vim              .h与.c文件切换插件，通过:A命令切换
 
 ## Key Mapping
     F2                 打开工具栏和菜单栏
