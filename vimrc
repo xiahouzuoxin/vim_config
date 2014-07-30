@@ -123,8 +123,9 @@ let &guicursor = &guicursor . ",a:blinkon0"
 au GUIEnter * simalt ~x         "启动后最大化
 let g:winManagerWindowLayout='FileExplorer|TagList'  "设置左侧导航窗口
 " 我的状态行显示的内容（包括文件类型和解码）
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
-"set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
+let g:EchoFuncShowOnStatus = 1
+" set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{EchoFuncGetStatusLine()}
 set laststatus=2                " 启动显示状态行(1),总是显示状态行(2)
 set guioptions-=m               " 隐藏工具栏
 set guioptions-=T               " 隐藏菜单栏
