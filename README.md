@@ -14,7 +14,16 @@
 	13. Visual模式下选择注释代码块 \cc注释 \co反注释
 	14. Visual模式下选中字符串后，使用#,*,gv快捷键可快速实现文档内对选中字符串的查找
 	15. 添加NERDTree插件，将NERDTree集成到winmanager窗口中
-	16. 诸多其它小功能
+	16. 添加code_complete插件，其使用全在插入模式下+TAB快捷键完成，其功能包括：
+	
+		- 插入模式下cc+TAB：添加/**/格式的注释
+		- 插入模式下cd+TAB：添加/**< */doxgen格式的注释
+		- 插入模式下ff+TAB：头文件中添加#ifdef #define #endif防止重复包含的预处理代码
+		- 插入模式下is+TAB：插入系统头文件
+		- 插入模式下in+TAB：插入自定义头文件
+		- main函数、if/for/switch/while等语句的自动补全，函数括号后TAB能进行函数参数提示
+		  
+	17. 诸多其它小功能
 
 ## Plugins
     echofunc           函数参数提示
@@ -26,6 +35,7 @@
     vim-markdown       Markdown语法高亮 https://github.com/plasticboy/vim-markdown
     NERDTree           文件浏览器管理插件
     a.vim              .h与.c文件切换插件，通过:A命令切换
+    code_complete.vim  代码补全功能，函数参数自动提示感觉很有用，虽然echofunc也提供了函数参数提示
 
 ## Key Mapping
     F2                 打开工具栏和菜单栏
