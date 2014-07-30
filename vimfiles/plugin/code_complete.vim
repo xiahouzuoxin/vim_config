@@ -214,12 +214,12 @@ function! CodeComplete()
 endfunction
 
 
-" [Get converted file name like __THIS_FILE__ ]
+" [Get converted file name like _THIS_FILE]
 function! GetFileName()
     let filename=expand("%:t")
     let filename=toupper(filename)
     let _name=substitute(filename,'\.','_',"g")
-    "let _name="__"._name."__"
+    let _name="_"._name
     return _name
 endfunction
 
