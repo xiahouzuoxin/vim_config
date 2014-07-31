@@ -107,8 +107,8 @@ set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 " ------------------------------------------------------------------------------
 " EchoFunc配置
 " ------------------------------------------------------------------------------
-let g:EchoFuncKeyPrev = '<S-p>'
-let g:EchoFuncKeyNext = '<S-n>'
+let g:EchoFuncKeyPrev = '<C-u>'
+let g:EchoFuncKeyNext = '<C-d>'
 let g:EchoFuncShowOnStatus = 1  " 状态行显示函数提示
 
 " ------------------------------------------------------------------------------

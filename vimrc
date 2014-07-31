@@ -118,8 +118,8 @@ let &guicursor = &guicursor . ",a:blinkon0"
 " ------------------------------------------------------------------------------
 " EchoFunc配置（快捷键）
 " ------------------------------------------------------------------------------
-let g:EchoFuncKeyNext = '<S-n>'   
-let g:EchoFuncKeyPrev = '<S-p>'
+let g:EchoFuncKeyNext = '<C-d>'  " 重映射Ctrl+d快捷键 
+let g:EchoFuncKeyPrev = '<C-u>'  " 重映射Ctrl+u快捷键 
 let g:EchoFuncShowOnStatus = 1  " 状态行函数提示
 
 " ------------------------------------------------------------------------------
