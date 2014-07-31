@@ -56,22 +56,28 @@
 
 ## User Guide
 
-- Copy vimfiles directory to your home directory. In Linux, mv directory name to .vim. Linux Example: 
+### Linux(CentOS)
 
-```
-su root
-mv vimfiles .vim 
-cp .vim /home/monkeyzx/
-```
+1.	Copy `vimfiles` directory to your home directory. Then mv directory name to `.vim` 
 
-- In Linux, Copy vimrc to /etc/vimrc. In Windows, Copy _vimrc instead of vimrc to GVIM install path. Linux Example: 
+	```
+	su root
+	mv vimfiles .vim 
+	cp .vim /home/monkeyzx/
+	```
 
-```
-su root
-cp vimrc /etc/vimrc
-```
+2.	Copy `vimrc` to `/etc/vimrc`. 
 
-I test all of them in Cygwin and Centos 6.3.
+	```
+	su root
+	cp vimrc /etc/vimrc
+	```
+
+### Windows(GVIM 7.3)
+
+1.	Copy `_vimrc` to GVIM install path.
+2.	Copy `vimfiles` to GVIM install path.
+3.	Copy ctags.exe to the same path as `gvim.exe` file.
 
 ![](./disp.png)
 
