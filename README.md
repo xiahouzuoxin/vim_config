@@ -23,7 +23,7 @@
 		- 插入模式下in+TAB：插入自定义头文件
 		- main函数、if/for/switch/while等语句的自动补全，函数括号后TAB能进行函数参数提示
 
-	17. 状态行显示echofunc函数提示：存在多个同名函数tag时，使用Alt+=或At+-切换		  
+	17. 状态行显示echofunc函数提示：存在多个同名函数tag时，输入函数左括号后使用N或P快捷键切换		  
 	18. 诸多其它小功能
 
 ## Plugins

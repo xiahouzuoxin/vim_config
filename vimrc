@@ -115,7 +115,12 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 
 
-
+" ------------------------------------------------------------------------------
+" EchoFunc配置（快捷键）
+" ------------------------------------------------------------------------------
+let g:EchoFuncKeyNext = '<S-n>'   
+let g:EchoFuncKeyPrev = '<S-p>'
+let g:EchoFuncShowOnStatus = 1  " 状态行函数提示
 
 " ------------------------------------------------------------------------------
 " VIM窗口界面设置
@@ -123,7 +128,6 @@ let &guicursor = &guicursor . ",a:blinkon0"
 au GUIEnter * simalt ~x         "启动后最大化
 let g:winManagerWindowLayout='FileExplorer|TagList'  "设置左侧导航窗口
 " 我的状态行显示的内容（包括文件类型和解码）
-let g:EchoFuncShowOnStatus = 1
 " set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{EchoFuncGetStatusLine()}
 set laststatus=2                " 启动显示状态行(1),总是显示状态行(2)
@@ -278,7 +282,7 @@ syntax on                       "语言高亮
 set cindent                     "C语言格式缩进
 set smartindent                 "智能缩进
 set nu                          "行号显示
-colo molokai                    "设定主题,desert/lucius/molokai主题都不错
+colo desert                    "设定主题,desert/lucius/molokai主题都不错
 set tabstop=4                   "设定tab宽度为4个字符
 set shiftwidth=4                "设定自动缩进为4个字符
 set expandtab                   "用space替代tab的输入
@@ -344,7 +348,7 @@ let Tlist_Show_One_File=1       "不同时显示多个文件的 tag ，只显示
 set tags=tags 
 "set autochdir
 function! UpdateTagsFile() 
-    silent !ctags -R --c++-kinds=+p --fields=+ianS --extra=+q 
+    !ctags -R --c++-kinds=+p --fields=+ianS --extra=+q 
 endfunction 
 nmap <F12> :call UpdateTagsFile()<CR>
 
@@ -475,6 +479,5 @@ vnoremap <silent> * :call VisualSearch('f')<CR>
 vnoremap <silent> # :call VisualSearch('b')<CR>
 vnoremap <silent> gv :call VisualSearch('gv')<CR>
 
-
-set tags+=/mnt/HappyStudy/Tiny6410/linux-2.6.38/tags
-set tags+=/home/monkeyzx/opencv_src/tags
+set tags+=/usr/local/include/opencv/tags
+set tags+=/usr/local/include/opencv2/tags

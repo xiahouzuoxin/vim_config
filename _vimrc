@@ -104,6 +104,12 @@ set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 "source $VIMRUNTIME/delmenu.vim
 "source $VIMRUNTIME/menu.vim
 
+" ------------------------------------------------------------------------------
+" EchoFunc配置
+" ------------------------------------------------------------------------------
+let g:EchoFuncKeyPrev = '<S-p>'
+let g:EchoFuncKeyNext = '<S-n>'
+let g:EchoFuncShowOnStatus = 1  " 状态行显示函数提示
 
 " ------------------------------------------------------------------------------
 " VIM窗口界面设置
@@ -111,7 +117,6 @@ set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 au GUIEnter * simalt ~x         "启动后最大化
 let g:winManagerWindowLayout='FileExplorer|TagList'  "设置左侧导航窗口
 " 我的状态行显示的内容（包括文件类型和解码）
-let g:EchoFuncShowOnStatus = 1
 " set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}\ %{EchoFuncGetStatusLine()}
 set laststatus=2                " 启动显示状态行(1),总是显示状态行(2)
